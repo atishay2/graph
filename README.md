@@ -41,3 +41,36 @@ graph problems
                   res.append([m,n]) 
           return res
 
+LC : 207. Course Schedule
+![image](https://github.com/atishay2/graph/assets/52835993/84f593cc-3f5f-4136-819c-192494be177a)
+![image](https://github.com/atishay2/graph/assets/52835993/f7e83235-1046-4e3d-9a28-bb90615b8974)
+
+
+    class Solution:
+        def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+            
+            adj = {i : [] for i in range(numCourses)}
+    
+            for x,y in prerequisites:
+                adj[x].append(y)
+    
+            cur_visit = set()
+    
+            def dfs(cur):
+                
+                
+                if adj[cur] == []: return True
+                for cr in adj[cur]:
+                    if cr in cur_visit:
+                        return False
+                    cur_visit.add(cur)
+                    if not dfs(cr): return False
+                    
+                    cur_visit.remove(cur)
+                    adj[cur] = []
+                return True
+            
+            for x in range(numCourses):
+                if not dfs(x):
+                    return False
+            return True
